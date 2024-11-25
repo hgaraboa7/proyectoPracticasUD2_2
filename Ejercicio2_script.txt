@@ -1,0 +1,71 @@
+-- Crear la base de datos
+CREATE DATABASE GestionPolitica;
+USE GestionPolitica;
+
+-- Tabla 1: Militante
+
+-- Tabla 2: Partido
+CREATE TABLE Partido (
+    IDPartido INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(50) NOT NULL,
+    Ideologia VARCHAR(50),
+    Fundacion DATE,
+    NumeroMilitantes INT DEFAULT 0 -- Número de militantes asociados al partido
+);
+CREATE TABLE Militante (
+    IDMilitante INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    Edad INT NOT NULL,
+    EsPolitico BOOLEAN NOT NULL, -- Indica si es político o no
+    IDPartido INT,
+    FOREIGN KEY (IDPartido) REFERENCES Partido(IDPartido)
+);
+
+
+-- Tabla 4: CasoDeCorrupcion
+CREATE TABLE CasoDeCorrupcion (
+    IDCaso INT PRIMARY KEY AUTO_INCREMENT,
+    Descripcion VARCHAR(255) NOT NULL,
+    Fecha DATE,
+    CantidadFraude DECIMAL(10, 2) -- Cantidad de dinero involucrada en el caso de corrupción
+);
+
+-- Tabla 3: PartidoCasoCorrupcion (Entidad intermedia)
+CREATE TABLE PartidoCasoCorrupcion (
+    IDPartido INT,
+    IDCaso INT,
+    GradoImplicacion DECIMAL(5, 2), -- Porcentaje de implicación en el caso
+    PRIMARY KEY (IDPartido, IDCaso),
+    FOREIGN KEY (IDPartido) REFERENCES Partido(IDPartido),
+    FOREIGN KEY (IDCaso) REFERENCES CasoDeCorrupcion(IDCaso)
+);
+
+-- Insertar datos en la tabla Partido
+INSERT INTO Partido (Nombre, Ideologia, Fundacion, NumeroMilitantes)
+VALUES 
+    ('Partido A', 'Liberal', '1990-01-01', 1),
+    ('Partido B', 'Conservador', '1985-06-15', 2);
+
+-- Insertar datos en la tabla Militante
+INSERT INTO Militante (Nombre, Apellido, Edad, EsPolitico, IDPartido)
+VALUES 
+    ('Juan', 'Pérez', 35, TRUE, 1),
+    ('María', 'López', 28, FALSE, 2),
+    ('Carlos', 'Sánchez', 40, TRUE, 2);
+
+-- Insertar datos en la tabla CasoDeCorrupcion
+INSERT INTO CasoDeCorrupcion (Descripcion, Fecha, CantidadFraude)
+VALUES 
+    ('Desvío de fondos', '2023-10-01', 1000000.00),
+    ('Sobornos en licitaciones', '2024-01-15', 500000.00);
+
+-- Insertar datos en la tabla PartidoCasoCorrupcion
+INSERT INTO PartidoCasoCorrupcion (IDPartido, IDCaso, GradoImplicacion)
+VALUES 
+    (1, 1, 80.00), -- Partido A implicado en 80% en el Caso 1
+    (2, 1, 20.00), -- Partido B implicado en 20% en el Caso 1
+    (2, 2, 100.00); -- Partido B implicado en 100% en el Caso 2
+
+-- Actualizar el número de militantes automáticamente (opcional, si no se pone manualmente)
+
