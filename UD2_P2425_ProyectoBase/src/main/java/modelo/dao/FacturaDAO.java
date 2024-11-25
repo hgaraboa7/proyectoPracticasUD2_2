@@ -67,7 +67,31 @@ public class FacturaDAO {
       return comp;  
         
     }
+ public String buscar(Connection conn, String idcliente) throws SQLException {
 
+        String consulta = "select * from factura where idcliente like ?";
+        String numfactura = null;
+
+        PreparedStatement sentencia = conn.prepareStatement(consulta);
+        sentencia.setString(1, idcliente);
+        ResultSet rs = null;
+        rs = sentencia.executeQuery();
+
+        while (rs.next()) {
+            numfactura += rs.getString(1) + ":";
+        }
+
+        return numfactura;
+    }
+
+    public boolean cobrada(Connection conn, String idcliente) throws SQLException {
+        boolean cobrada = false;
+         String consulta="select count(*) from  factura where cobrada=0 and idcliente like ?";
+        PreparedStatement sentencia=conn.prepareCall(consulta);
+         
+         
+        return cobrada;
+    }
    
     
     

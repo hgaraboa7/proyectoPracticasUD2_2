@@ -3,10 +3,14 @@ vista\Ventana1_3$7.class
 vista\Ventana1_1.class
 UD2_P2425_ProyectoBase.class
 modelo\vo\Factura.class
+vista\Ventana1_2$5.class
 controlador\pool\BasicConnectionPool.class
+controlador\controlador1_2.class
+modelo\dao\DetalleDAO.class
 modelo\vo\Producto.class
 controlador\factory\MySQLDAOFactory.class
 modelo\dao\Dao.class
+vista\Ventana1_2$4.class
 modelo\vo\Cliente.class
 vista\Ventana1_1$4.class
 modelo\vo\Empleado.class
@@ -16,7 +20,10 @@ controlador\pool\ConnectionPool.class
 vista\Ventana1_3$2.class
 modelo\dao\FacturaDAO.class
 vista\Ventana1_1$7.class
+vista\Ventana1_2.class
+vista\Ventana1_2$2.class
 vista\Ventana1_1$8.class
+vista\Ventana1_2$1.class
 vista\Ventana1_3$1.class
 modelo\dao\ProductoDAO.class
 controlador\controlador1_1.class
@@ -29,5 +36,7 @@ modelo\dao\ClienteDAO.class
 controlador\controlador1_3.class
 vista\Ventana1_3.class
 vista\Ventana1_3$3.class
+vista\Ventana1_2$6.class
+vista\Ventana1_2$3.class
 vista\Ventana1_3$6.class
 vista\Ventana1_1$3.class
