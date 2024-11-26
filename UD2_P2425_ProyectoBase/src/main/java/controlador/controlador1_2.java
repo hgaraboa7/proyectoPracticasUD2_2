@@ -4,7 +4,6 @@
  */
 package controlador;
 
-
 import controlador.factory.DAOFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +14,7 @@ import modelo.dao.ClienteDAO;
 import modelo.dao.DetalleDAO;
 import modelo.dao.EmpleadoDAO;
 import modelo.dao.FacturaDAO;
+import modelo.dao.HistoricoDAO;
 import modelo.dao.ProductoDAO;
 import modelo.vo.Cliente;
 import modelo.vo.Factura;
@@ -33,6 +33,7 @@ public class controlador1_2 {
     static FacturaDAO factura;
     static ClienteDAO cliente;
     static DetalleDAO detalle;
+    static HistoricoDAO historico;
 
     public static void iniciar() {
         ventana.setVisible(true);
@@ -49,6 +50,7 @@ public class controlador1_2 {
         cliente = mySQLFactory.getClienteDAO();
         factura = mySQLFactory.getFacturaDAO();
         detalle = mySQLFactory.getDetalleDAO();
+        historico = mySQLFactory.getHistoricoDAO();
 
     }
 
@@ -79,37 +81,36 @@ public class controlador1_2 {
 
         } catch (Exception ex) {
             Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
-        
-        try {
-            conn.commit();
-        } catch (SQLException ex) {
-            Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        mySQLFactory.releaseConnection(conn);
+        } finally {
+
+            try {
+                conn.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            mySQLFactory.releaseConnection(conn);
 
         }
     }
 
     public static void insertarCliente() {
         Connection conn = null;
-        
 
         if (ventana.getTxtIdCliente().getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "falta id cliente");
             return;
         }
-        
+
         try {
             conn = mySQLFactory.getConnection();
             cliente.insertar(conn,
-                ventana.getTxtIdCliente().getText(),
-                ventana.getTxtNombreCli().getText(),
-                ventana.getTxtApellidoCli().getText(),
-                ventana.getTxtDirCli().getText()
-        );
-           JOptionPane.showMessageDialog(null, "Insercion realizada con exito");
-            
+                    ventana.getTxtIdCliente().getText(),
+                    ventana.getTxtNombreCli().getText(),
+                    ventana.getTxtApellidoCli().getText(),
+                    ventana.getTxtDirCli().getText()
+            );
+            JOptionPane.showMessageDialog(null, "Insercion realizada con exito");
+
         } catch (SQLException ex) {
             switch (ex.getErrorCode()) {
                 case 1062 -> {
@@ -118,54 +119,72 @@ public class controlador1_2 {
                 default -> {
                 }
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
-        
-        try {
-            conn.commit();
-        } catch (SQLException ex) {
-            Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        mySQLFactory.releaseConnection(conn);
+        } finally {
+
+            try {
+                conn.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            mySQLFactory.releaseConnection(conn);
 
         }
 
     }
 
-    public static void eliminarCliente() {
-   
-        Connection conn=null;
-        Cliente cli=null;
-        String numfactura=null;
+    public static void enviarCliente() {
+
+        Connection conn = null;
+        Cliente cli = null;
+        String numfactura = null;
+        double total = 0.0;
         if (ventana.getTxtIdCliente().getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "falta id cliente");
             return;
         }
-        
+
         try {
-             conn = mySQLFactory.getConnection();
-            if((cli=cliente.buscar(conn,ventana.getTxtIdCliente().getText() ))==null){
+            conn = mySQLFactory.getConnection();
+            if ((cli = cliente.buscar(conn, ventana.getTxtIdCliente().getText())) == null) {
                 JOptionPane.showMessageDialog(null, "no existe el cliente");
-            return;
-            //else if()
-            }else if(factura.cobrada(conn, ventana.getTxtIdCliente().getText())==true){
-              numfactura=factura.buscar(conn, ventana.getTxtIdCliente().getText());
-              System.out.println(numfactura.substring(4, numfactura.length()-1));
-            
+                return;
+                //else if()
+            } else if (factura.cobrada(conn, ventana.getTxtIdCliente().getText()) == true) {
+                numfactura = factura.buscar(conn, ventana.getTxtIdCliente().getText());
+                System.out.println(numfactura.substring(4, numfactura.length() - 1));
+                total = detalle.total(conn, numfactura);
+                historico.enviar(conn, cli.getIdcliente(),
+                        cli.getNombrecli() + cli.getApellidocli(),
+                        total,
+                        numfactura);
+
             }
-            
-            
-            
-            
+
         } catch (SQLException ex) {
-            Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
+            switch (ex.getErrorCode()) {
+                case 1062 -> {
+                    JOptionPane.showMessageDialog(null, "el cliente ya existe en el historico");
+                }
+                default -> {
+                    Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                conn.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            mySQLFactory.releaseConnection(conn);
+
         }
-    
-    
-    
+
     }
 
 }

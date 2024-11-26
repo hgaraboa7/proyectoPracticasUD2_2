@@ -186,7 +186,7 @@ public class Ventana1_2 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreCliActionPerformed
 
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
-        controlador1_2.eliminarCliente();
+        controlador1_2.enviarCliente();
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
 
     private void btnInsertarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarClienteActionPerformed

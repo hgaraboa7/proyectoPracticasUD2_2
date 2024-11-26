@@ -5,6 +5,7 @@ import modelo.dao.ClienteDAO;
 import modelo.dao.DetalleDAO;
 import modelo.dao.EmpleadoDAO;
 import modelo.dao.FacturaDAO;
+import modelo.dao.HistoricoDAO;
 import modelo.dao.ProductoDAO;
 
 
@@ -40,5 +41,6 @@ public abstract class DAOFactory {
         public abstract ClienteDAO getClienteDAO();
         public abstract FacturaDAO getFacturaDAO();
          public abstract DetalleDAO getDetalleDAO();
+         public abstract HistoricoDAO getHistoricoDAO();
       
 }

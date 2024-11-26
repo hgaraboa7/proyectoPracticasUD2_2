@@ -7,6 +7,7 @@ import modelo.dao.ClienteDAO;
 import modelo.dao.DetalleDAO;
 import modelo.dao.EmpleadoDAO;
 import modelo.dao.FacturaDAO;
+import modelo.dao.HistoricoDAO;
 import modelo.dao.ProductoDAO;
 
 public class MySQLDAOFactory extends DAOFactory {
@@ -17,7 +18,7 @@ public class MySQLDAOFactory extends DAOFactory {
     final static String password = "root";
     final static String BD = "practicaud2"; //Indica aqui la BD 
     //localhost //192.168.56.101
-    final static String IP = "localhost"; //Indica aqui la IP 
+    final static String IP = "10.50.1.20"; //Indica aqui la IP 
     final static String url = "jdbc:mysql://" + IP + ":3306/" + BD;
 
     static BasicConnectionPool bcp;
@@ -75,6 +76,10 @@ public class MySQLDAOFactory extends DAOFactory {
     public DetalleDAO getDetalleDAO() {
    return new DetalleDAO();
     }
+
+    @Override
+    public HistoricoDAO getHistoricoDAO() {
+   return new HistoricoDAO();  }
     
     
     

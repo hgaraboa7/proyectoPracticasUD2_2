@@ -5,6 +5,7 @@ UD2_P2425_ProyectoBase.class
 modelo\vo\Factura.class
 vista\Ventana1_2$5.class
 controlador\pool\BasicConnectionPool.class
+modelo\dao\HistoricoDAO.class
 controlador\controlador1_2.class
 modelo\dao\DetalleDAO.class
 modelo\vo\Producto.class

@@ -38,11 +38,28 @@ public class DetalleDAO {
            }
            
         
-        
-        
-        
-        
     }
+//sin comprobar
+    public double total(Connection conn, String numfactura) throws SQLException {
+        double total=0.0;
+        
+        String consulta = "select cantidad, precio from detalle where numfactura like ?";
+        PreparedStatement sentencia = conn.prepareStatement(consulta);
+        String[]numeros=numfactura.split(":");
+        
+        for(int i=0;i<numeros.length;i++){
+    
+            sentencia.setString(1, numeros[i]);
+            
+            ResultSet rs = sentencia.executeQuery();
+            while (rs.next()) {
+                total += rs.getInt(1) * rs.getDouble(2);
+            }
+        }
+            return total; 
+    }
+    
+    
     
     
     
