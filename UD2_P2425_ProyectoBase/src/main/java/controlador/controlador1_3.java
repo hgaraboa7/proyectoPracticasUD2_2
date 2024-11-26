@@ -142,7 +142,7 @@ public class controlador1_3 {
             }
 
             sp = conn.setSavepoint();
-            factura.actualizarCobrada(conn, modelotabla);
+            factura.actualizarCobrada(conn, modelotabla,ventana.getTxtIdCliente().getText());
 
             JOptionPane.showMessageDialog(null, "Cambios guardados exitosamente.");
         } catch (SQLException ex) {

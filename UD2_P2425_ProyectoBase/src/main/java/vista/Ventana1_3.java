@@ -90,11 +90,11 @@ public class Ventana1_3 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fecha", "Total", "Cobrada"
+                "idFactura", "Fecha", "Total", "Cobrada"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

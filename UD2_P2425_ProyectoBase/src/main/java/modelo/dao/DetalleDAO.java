@@ -59,7 +59,17 @@ public class DetalleDAO {
             return total; 
     }
     
+    public void borrar(Connection conn, String numfactura) throws SQLException {
+    String consulta = "DELETE FROM detalle WHERE numfactura = ?";
+    PreparedStatement sentencia = conn.prepareStatement(consulta);
+    String[] numeros = numfactura.split(":");
     
+    for (int i = 0; i < numeros.length; i++) {
+        sentencia.setString(1, numeros[i]);
+        sentencia.executeUpdate(); 
+    }
+}
+
     
     
     

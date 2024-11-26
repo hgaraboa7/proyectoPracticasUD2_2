@@ -150,7 +150,7 @@ public class controlador1_2 {
             if ((cli = cliente.buscar(conn, ventana.getTxtIdCliente().getText())) == null) {
                 JOptionPane.showMessageDialog(null, "no existe el cliente");
                 return;
-                //else if()
+                
             } else if (factura.cobrada(conn, ventana.getTxtIdCliente().getText()) == true) {
                 numfactura = factura.buscar(conn, ventana.getTxtIdCliente().getText());
                 System.out.println(numfactura.substring(4, numfactura.length() - 1));
@@ -159,7 +159,15 @@ public class controlador1_2 {
                         cli.getNombrecli() + cli.getApellidocli(),
                         total,
                         numfactura);
+                //borrar//
+                //sin comprobar
+                detalle.borrar(conn, numfactura );
+                factura.borrar(conn,ventana.getTxtIdCliente().getText() );
+                cliente.borrar(conn,ventana.getTxtIdCliente().getText());
 
+            }else{
+                JOptionPane.showMessageDialog(null, "no tiene todas sus facturas pagadas, no se puede borrar");
+                return;
             }
 
         } catch (SQLException ex) {
@@ -186,5 +194,7 @@ public class controlador1_2 {
         }
 
     }
+
+   
 
 }

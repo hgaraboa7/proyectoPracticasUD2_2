@@ -44,4 +44,16 @@ public void insertar(Connection conn, String id, String nombre, String apellido,
         
         
     }
+
+    public void borrar(Connection conn, String idcliente) throws SQLException {
+   
+        
+         String consulta = "DELETE FROM cliente WHERE idcliente = ?";
+
+        PreparedStatement sentencia = conn.prepareStatement(consulta);
+
+        sentencia.setString(1, idcliente);
+        
+        sentencia.executeUpdate(); 
+    }
 }
