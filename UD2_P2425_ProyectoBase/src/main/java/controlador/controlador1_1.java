@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.dao.ClienteDAO;
+import modelo.dao.DetalleDAO;
 import modelo.dao.EmpleadoDAO;
 import modelo.dao.FacturaDAO;
 import modelo.dao.ProductoDAO;
@@ -48,6 +49,8 @@ public class controlador1_1 {
     static FacturaDAO factura;
     
     static ClienteDAO cliente;
+    
+    static DetalleDAO detalle;
 
    
    
@@ -74,6 +77,7 @@ public class controlador1_1 {
         empleado = mySQLFactory.getEmpleadoDAO();
         cliente=mySQLFactory.getClienteDAO();
         factura=mySQLFactory.getFacturaDAO();
+        detalle=mySQLFactory.getDetalleDAO();
 
     }
 
@@ -196,6 +200,7 @@ public class controlador1_1 {
                        sqlDate= new Date(ventana.getDcFecha().getDate().getTime()),
                        ventana.getCbCobrada().isSelected(),
                        10.00);
+               detalle.detallar(conn, ventana.getTxtNumFactura().getText(), modelotabla);
                 JOptionPane.showMessageDialog(null,"stock suficiente, factura realizada");
            }else{  
                JOptionPane.showMessageDialog(null,"stock insuficiente");
@@ -267,13 +272,6 @@ public class controlador1_1 {
   
     }
 
-    public static void enviardetalle() {
-       
-        
-        
-    }
-
-    
    
          
         

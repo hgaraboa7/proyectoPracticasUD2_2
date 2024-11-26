@@ -287,7 +287,7 @@ public class Ventana1_1 extends javax.swing.JFrame {
         controlador1_1.comprobarStock();
         controlador1_1.cargarcomboEmpleado();
 
-          //controlador1_1.enviardetalle();
+          
 
     }//GEN-LAST:event_btnFacturarActionPerformed
 

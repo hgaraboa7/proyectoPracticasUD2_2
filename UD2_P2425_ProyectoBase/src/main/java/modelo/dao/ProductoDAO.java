@@ -47,7 +47,7 @@ public class ProductoDAO {
 
     public boolean comprobarTabla(DefaultTableModel modelotabla, Producto producto, int cantidad) {
 
-        //revisar este metodo no me gusta
+       
         boolean comp = false;
 
         for (int i = 0; i < modelotabla.getRowCount(); i++) {
@@ -71,28 +71,26 @@ public class ProductoDAO {
     }
 
     public void eliminarProducto(DefaultTableModel modelotabla, Producto producto, int cantidad) {
+    for (int i = 0; i < modelotabla.getRowCount(); i++) {
+        String nombretabla = (String) modelotabla.getValueAt(i, 0);
 
-        //revisar este metodo no me gusta
-        for (int i = 0; i < modelotabla.getRowCount(); i++) {
+       
+        if (nombretabla.equals(producto.getNomproducto())) {
+            int cantidadActual = (int) modelotabla.getValueAt(i, 1) - cantidad;
 
-            String nombretabla = (String) modelotabla.getValueAt(i, 0);
-
-            if (nombretabla == producto.getNomproducto()) {
-
-                modelotabla.setValueAt(((int) modelotabla.getValueAt(i, 1) - cantidad), i, 1);
-
-                modelotabla.setValueAt(((int) modelotabla.getValueAt(i, 1) * producto.getPrecio()), i, 2);
-
-                // if((int) modelotabla.getValueAt(i, 1)<0){
-                //al hacer con transacciones aqui hacer rollback
-                // }
-                //   if((int) modelotabla.getValueAt(i, 2)<0){
-                //al hacer con transacciones aqui hacer rollback
-                // }
+             if (cantidadActual <= 0) {
+                modelotabla.removeRow(i);
+                i--; 
+            } else {
+                 modelotabla.setValueAt(cantidadActual, i, 1);
+                modelotabla.setValueAt(cantidadActual * producto.getPrecio(), i, 2);
             }
 
+            break;
         }
     }
+}
+
 
     public void calcularTotal(DefaultTableModel modelotabla, JTextField txtTotal) {
 

@@ -80,7 +80,7 @@ public class controlador1_2 {
         } catch (Exception ex) {
             Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
-        }
+        
         try {
             conn.commit();
         } catch (SQLException ex) {
@@ -88,6 +88,7 @@ public class controlador1_2 {
         }
         mySQLFactory.releaseConnection(conn);
 
+        }
     }
 
     public static void insertarCliente() {
@@ -120,7 +121,7 @@ public class controlador1_2 {
         }catch (Exception ex) {
             Logger.getLogger(controlador1_2.class.getName()).log(Level.SEVERE, null, ex);
         }finally {
-        }
+        
         try {
             conn.commit();
         } catch (SQLException ex) {
@@ -128,7 +129,7 @@ public class controlador1_2 {
         }
         mySQLFactory.releaseConnection(conn);
 
-        
+        }
 
     }
 

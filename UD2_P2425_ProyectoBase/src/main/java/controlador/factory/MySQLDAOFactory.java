@@ -17,7 +17,7 @@ public class MySQLDAOFactory extends DAOFactory {
     final static String password = "root";
     final static String BD = "practicaud2"; //Indica aqui la BD 
     //localhost //192.168.56.101
-    final static String IP = "192.168.56.101"; //Indica aqui la IP 
+    final static String IP = "localhost"; //Indica aqui la IP 
     final static String url = "jdbc:mysql://" + IP + ":3306/" + BD;
 
     static BasicConnectionPool bcp;

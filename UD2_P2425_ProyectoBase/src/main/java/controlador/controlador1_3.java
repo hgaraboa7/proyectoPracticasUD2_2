@@ -84,25 +84,39 @@ public class controlador1_3 {
         Connection conn = null;
         Cliente cli = null;
         Factura fac = null;
+        Date sqlDate = null;
+        Date sqlDate2 = null;
 
         if (ventana.getTxtIdCliente().getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "falta id Cliente");
             return;
         }
+        if (ventana.getDcFechaFin().getDate() == null
+                || ventana.getDcFechaInicio().getDate() == null) {
+            JOptionPane.showMessageDialog(null, "faltan fechas");
+            return;
+        }
+        if (ventana.getDcFechaFin().getDate().before(ventana.getDcFechaInicio().getDate())) {
+            JOptionPane.showMessageDialog(null, "la fecha de fin no puede ser anterior a la de inicio");
+            return;
+        }
+
         try {
             conn = mySQLFactory.getConnection();
             cli = cliente.buscar(conn, ventana.getTxtIdCliente().getText());
             if (cli != null) {
                 System.out.println(cli.toString());
                 ventana.getTxtIdCliente().setText(cli.toString());
-                if(factura.extraerDatos(conn, cli.getIdcliente(), modelotabla)){
-                   JOptionPane.showMessageDialog(null, "Pedidos cargados");
-                return; 
-                }else{
+                if (factura.extraerDatos(conn, cli.getIdcliente(), modelotabla,
+                        sqlDate = new Date(ventana.getDcFechaInicio().getDate().getTime()),
+                        sqlDate2 = new Date(ventana.getDcFechaFin().getDate().getTime()))) {
+                    JOptionPane.showMessageDialog(null, "Pedidos cargados");
+                    return;
+                } else {
                     JOptionPane.showMessageDialog(null, "el cliente no tiene pedidos");
-                return;
+                    return;
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "no existe ese cliente");
                 return;
@@ -110,8 +124,52 @@ public class controlador1_3 {
 
         } catch (Exception ex) {
             Logger.getLogger(controlador1_3.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            mySQLFactory.releaseConnection(conn);
         }
 
     }
 
+    public static void guardarCambios() {
+        Connection conn = null;
+        Savepoint sp = null;
+
+        try {
+            conn = mySQLFactory.getConnection();
+            if (modelotabla.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "No hay datos para guardar.");
+                return;
+            }
+
+            sp = conn.setSavepoint();
+            factura.actualizarCobrada(conn, modelotabla);
+
+            JOptionPane.showMessageDialog(null, "Cambios guardados exitosamente.");
+        } catch (SQLException ex) {
+            try {
+                conn.rollback(sp);
+            } catch (SQLException ex1) {
+                Logger.getLogger(controlador1_3.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(controlador1_3.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al guardar cambios: " + ex.getMessage());
+        } catch (Exception ex) {
+            try {
+                conn.rollback(sp);
+            } catch (SQLException ex1) {
+                Logger.getLogger(controlador1_3.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(controlador1_3.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conn.commit();
+            } catch (Exception ex) {
+
+                Logger.getLogger(controlador1_3.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            mySQLFactory.releaseConnection(conn);
+
+        }
+
+    }
 }
